@@ -1,14 +1,14 @@
 import { combineReducers } from "redux";
-import {reducer} from "redux-form";
+import { reducer as formReducer } from "redux-form";
 
-const INITIAL_STATE = {isSignedIn: null, id: null}
+const INITIAL_STATE = { isSignedIn: null, id: null };
 
 const checkAuth = function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case "SIGN_IN":
-      return {...state, isSignedIn: true, id: action.payload.id};
+      return { ...state, isSignedIn: true, id: action.payload};
     case "SIGN_OUT":
-      return {...state, isSignedIn: false};
+      return { ...state, isSignedIn: false };
     default:
       return state;
   }
@@ -16,5 +16,5 @@ const checkAuth = function (state = INITIAL_STATE, action) {
 
 export default combineReducers({
   auth: checkAuth,
-  form: reducer
+  form: formReducer,
 });
