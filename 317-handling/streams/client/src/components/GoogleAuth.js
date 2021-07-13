@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { signIn, signOut } from '../actions';
 
 class GoogleAuth extends React.Component {
-  componentDidMount() { 
+  componentDidMount() {
     window.gapi.load('client:auth2', () => {
       window.gapi.client
         .init({
@@ -12,17 +12,17 @@ class GoogleAuth extends React.Component {
           scope: 'email'
         })
         .then(() => {
-          this.auth = window.gapi.auth2.getAuthInstance();  
+          this.auth = window.gapi.auth2.getAuthInstance();
+
           this.onAuthChange(this.auth.isSignedIn.get());
-          this.auth.isSignedIn.listen(this.onAuthChange.bind(this.auth.isSignedIn.get()));
+          this.auth.isSignedIn.listen(this.onAuthChange);
         });
     });
   }
 
   onAuthChange = isSignedIn => {
     if (isSignedIn) {
-      const id = this.auth.currentUser.get().getId();
-      this.props.signIn(id);
+      this.props.signIn();
     } else {
       this.props.signOut();
     }
