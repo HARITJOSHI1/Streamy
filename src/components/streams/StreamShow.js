@@ -8,7 +8,7 @@ class StreamShow extends React.Component {
     super(props);
     this.videoRef = React.createRef();
   }
-  
+
   componentDidMount() {
     this.props.fetchStream(this.props.match.params.id);
     this.buildPlayer();
@@ -18,11 +18,16 @@ class StreamShow extends React.Component {
     this.buildPlayer();
   }
 
+  componentWillUnmount(){
+    this.flvPlayer.destroy();
+  }
+
   buildPlayer() {
-    if (this.player || !this.stream) return;
+    if (this.flvPlayer || !this.props.stream) return;
+    const {id} = this.props.match.params;
     this.flvPlayer = flv.createPlayer({
       type: "flv",
-      url: `http://localhost:8000/${this.props.match.params.id}`,
+      url: `http://localhost:8000/live/${id}.flv`,
     });
 
     this.flvPlayer.attachMediaElement(this.videoRef.current);
